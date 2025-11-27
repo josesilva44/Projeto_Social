@@ -1,0 +1,53 @@
+{% block conteudo %}
+<div class="container py-4">
+  <h2>Matricular Alunos</h2>
+  
+  <div class="alert alert-info" role="alert">
+    <strong>Classe:</strong> Classe Exemplo (Igreja Exemplo)<br>
+    <strong>Trimestre:</strong> 1 / 2025
+    <span class="badge bg-success">Ativo</span>
+  </div>
+
+  <form method="post">
+
+    <div class="mb-3">
+      <label class="form-label"><strong>Alunos disponíveis (3)</strong></label>
+
+      <div class="list-group">
+        <label class="list-group-item">
+          <input class="form-check-input me-1" type="checkbox" name="alunos"> 
+          <strong>João Silva</strong> (10/02/2011)
+        </label>
+
+        <label class="list-group-item">
+          <input class="form-check-input me-1" type="checkbox" name="alunos"> 
+          <strong>Maria Souza</strong> (28/05/2010)
+        </label>
+
+        <label class="list-group-item">
+          <input class="form-check-input me-1" type="checkbox" name="alunos"> 
+          <strong>Carlos Mendes</strong> (15/09/2009)
+        </label>
+      </div>
+    </div>
+
+    <hr>
+    <h5 class="mt-3">Criar e matricular novo aluno</h5>
+
+    <div class="row g-2 mb-3">
+      <div class="col-md-6">
+        <input type="text" class="form-control" placeholder="Nome do aluno">
+      </div>
+      <div class="col-md-6">
+        <input type="date" class="form-control" placeholder="Data de nascimento">
+      </div>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-primary">Matricular selecionados / Criar e matricular</button>
+      <a class="btn btn-secondary" href="#">← Voltar</a>
+    </div>
+
+  </form>
+</div>
+{% endblock conteudo %}

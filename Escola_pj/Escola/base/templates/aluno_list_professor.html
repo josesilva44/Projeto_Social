@@ -1,0 +1,62 @@
+{% block conteudo %}
+<div class="container py-5">
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h2>Alunos da Classe</h2>
+    </div>
+    <div class="col-md-6 text-end">
+      <a href="#" class="btn btn-secondary">← Voltar</a>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <form method="GET" class="row g-2 align-items-end">
+      <div class="col-md-4">
+        <label for="trimestre" class="form-label">Trimestre:</label>
+        <select id="trimestre" class="form-select">
+          <option value="">-- Selecionar --</option>
+          <option>1º Trimestre / 2025</option>
+          <option>2º Trimestre / 2025</option>
+          <option>3º Trimestre / 2025</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>Trimestre Selecionado:</strong> 1º / 2025
+    <span class="badge bg-success">Ativo</span>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Nome</th>
+          <th>Data de Nascimento</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Fulano da Silva</td>
+          <td>10/01/2010</td>
+          <td><a href="#" class="btn btn-sm btn-info">📝 Diário</a></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Maria Santos</td>
+          <td>22/03/2011</td>
+          <td><a href="#" class="btn btn-sm btn-info">📝 Diário</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+{% endblock conteudo %}

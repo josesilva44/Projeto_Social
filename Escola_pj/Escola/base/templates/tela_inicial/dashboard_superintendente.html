@@ -1,0 +1,94 @@
+{% extends 'tela_inicial/layout_base.html' %}
+
+{% block conteudo %}
+<div class="container py-5 text-center">
+  <h1 class="mb-4">Painel do Superintendente</h1>
+
+  <!-- BOTÕES -->
+  <button id="btnToggleForm" class="btn btn-secondary">Cadastrar Usuário</button>
+  <a class="btn btn-secondary" href="#">Listar Alunos</a>
+  <a class="btn btn-secondary" href="#">Listar Professores</a>
+  <a class="btn btn-secondary" href="#">Listar Secretários</a>
+  <a class="btn btn-secondary" href="#">Gerenciar Classes</a>
+  <a class="btn btn-secondary" href="#">Matricular Aluno</a>
+  <a class="btn btn-secondary" href="#">Relatório de Aulas</a>
+  <a class="btn btn-secondary" href="#">Iniciar Trimestre</a>
+  <a class="btn btn-secondary" href="#">Gerenciar Trimestres</a>
+
+  <!-- FORMULÁRIO DE CADASTRO -->
+  <div id="formContainer" class="mt-4 d-none">
+    <form method="POST" action="#" class="card p-4 shadow-sm text-start">
+
+      <h5 class="mb-3">Criar novo usuário</h5>
+
+      <div class="mb-3">
+        <label for="username" class="form-label">Nome de Usuário</label>
+        <input type="text" id="username" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">E-mail</label>
+        <input type="email" id="email" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="senha" class="form-label">Senha</label>
+        <input type="password" id="senha" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="tipo_usuario" class="form-label">Tipo de Usuário</label>
+        <select id="tipo_usuario" class="form-select" required>
+          <option value="">-- Selecione --</option>
+          <option value="professor">Professor</option>
+          <option value="secretario">Secretário</option>
+        </select>
+      </div>
+
+      <div id="classeContainer" class="mb-3" style="display: none;">
+        <label for="classe" class="form-label">Classe</label>
+        <select id="classe" class="form-select">
+          <option value="">-- Selecione uma classe --</option>
+          <option value="1">Classe Exemplo 1</option>
+          <option value="2">Classe Exemplo 2</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+        <button type="button" class="btn btn-secondary" id="btnCancelForm">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const btnToggleForm = document.getElementById('btnToggleForm');
+    const formContainer = document.getElementById('formContainer');
+    const btnCancelForm = document.getElementById('btnCancelForm');
+    const tipoUsuario = document.getElementById('tipo_usuario');
+    const classeContainer = document.getElementById('classeContainer');
+    const classeSelect = document.getElementById('classe');
+
+    btnToggleForm.addEventListener('click', function() {
+      formContainer.classList.remove('d-none');
+    });
+
+    btnCancelForm.addEventListener('click', function() {
+      formContainer.classList.add('d-none');
+    });
+
+    tipoUsuario.addEventListener('change', function() {
+      if (this.value === 'professor') {
+        classeContainer.style.display = 'block';
+        classeSelect.required = true;
+      } else {
+        classeContainer.style.display = 'none';
+        classeSelect.required = false;
+        classeSelect.value = '';
+      }
+    });
+  });
+</script>
+{% endblock conteudo %}

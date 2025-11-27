@@ -1,0 +1,55 @@
+{% block conteudo %}
+<div class="container py-5">
+  <div class="row mb-4">
+    <div class="col">
+      <h2>Minhas Aulas da Classe</h2>
+    </div>
+    <div class="col text-end">
+      <a href="#" class="btn btn-secondary">← Voltar</a>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>Data</th>
+          <th>Título da Aula</th>
+          <th>Trimestre</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>05/02/2025</td>
+          <td>Aula 1 - Introdução</td>
+          <td>1 / 2025</td>
+          <td><span class="badge bg-warning text-dark">⏳ Pendente</span></td>
+          <td><a href="#" class="btn btn-sm btn-primary">📝 Preencher Diário</a></td>
+        </tr>
+
+        <tr>
+          <td>12/02/2025</td>
+          <td>Aula 2 - História Bíblica</td>
+          <td>1 / 2025</td>
+          <td><span class="badge bg-danger">🔒 Concluída</span></td>
+          <td><button class="btn btn-sm btn-primary" disabled>📝 Preencher Diário</button></td>
+        </tr>
+
+        <tr>
+          <td>19/02/2025</td>
+          <td>Aula 3 - Discipulado</td>
+          <td>1 / 2025</td>
+          <td><span class="badge bg-warning text-dark">⏳ Pendente</span></td>
+          <td><a href="#" class="btn btn-sm btn-primary">📝 Preencher Diário</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-info mt-4" role="alert">
+    <strong>ℹ️ Informação:</strong> Clique em "Preencher Diário" para registrar presença, visitantes, ofertas e observações de cada aula.
+  </div>
+</div>
+{% endblock conteudo %}

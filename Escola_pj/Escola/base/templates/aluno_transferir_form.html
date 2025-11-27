@@ -1,0 +1,27 @@
+{% block conteudo %}
+<div class="container py-4">
+  <h2>Transferir Aluno: João Silva</h2>
+
+  <div class="alert alert-info">
+    <strong>Aluno:</strong> João Silva<br>
+    <strong>Igreja:</strong> Igreja Central
+  </div>
+
+  <form method="post">
+    <div class="mb-3">
+      <label class="form-label">Escolha a nova classe</label>
+      <select class="form-select" required>
+        <option value="">-- Selecione --</option>
+        <option>Classe Teen (Igreja Central)</option>
+        <option>Classe Juvenil (Igreja Nova Vida)</option>
+        <option>Classe Adultos (Igreja Esperança)</option>
+      </select>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-primary">Transferir</button>
+      <a class="btn btn-secondary" href="#">← Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock conteudo %}

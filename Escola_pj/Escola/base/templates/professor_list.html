@@ -1,0 +1,28 @@
+{% block conteudo %}
+<div class="container py-4">
+  <h2>Lista de Professores</h2>
+  <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Usuário</th>
+        <th>Nome Completo</th>
+        <th>Classe</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>usuario1</td>
+          <td>Professor Exemplo</td>
+          <td><span class="badge bg-info">Classe Teen</span></td>
+          <td>
+            <form method="post" style="display:inline;" onsubmit="return confirm('Confirma exclusão do professor?');">
+              <button type="submit" class="btn btn-sm btn-danger">Remover</button>
+            </form>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  <a class="btn btn-secondary" href="#">Voltar</a>
+</div>
+{% endblock conteudo %}

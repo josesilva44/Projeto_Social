@@ -1,0 +1,38 @@
+{% block conteudo %}
+<div class="container py-4">
+  <h2>Gerenciar Classes</h2>
+
+  <form method="post" class="row g-2 align-items-center mb-3">
+    <div class="col-auto">
+      <input type="text" name="nome" class="form-control" placeholder="Nome da nova classe" required>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary">Criar Classe</button>
+    </div>
+  </form>
+
+  <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Igreja</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <form method="post" class="d-flex">
+            <input type="text" name="nome" value="" class="form-control form-control-sm me-2" required>
+            <button type="submit" class="btn btn-sm btn-success">Salvar</button>
+          </form>
+        </td>
+        <td>-</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <a class="btn btn-secondary" href="#">Voltar</a>
+</div>
+{% endblock conteudo %}

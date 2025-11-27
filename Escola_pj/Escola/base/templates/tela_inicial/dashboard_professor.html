@@ -1,0 +1,124 @@
+{% extends 'tela_inicial/layout_base.html' %}
+
+{% block conteudo %}
+<div class="container py-5">
+  <div class="row mb-4">
+    <div class="col">
+      <h1 class="mb-4">📚 Diário de Aula - Professor</h1>
+      <p class="text-muted">Bem-vindo! Aqui você pode visualizar suas aulas e preencher o diário de cada uma.</p>
+    </div>
+  </div>
+
+  <!-- CARDS DE OPÇÕES -->
+  <div class="row g-3 mb-4">
+    <!-- Card: Minhas Aulas -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body text-center">
+          <h5 class="card-title mb-3">
+            <i class="bi bi-calendar-event" style="font-size: 2rem;"></i>
+          </h5>
+          <h6>Minhas Aulas</h6>
+          <p class="card-text small text-muted">
+            Veja todas as aulas da sua classe e preencha o diário de cada uma.
+          </p>
+          <a href="#" class="btn btn-primary btn-sm">
+            📝 Listar Aulas
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Alunos da Classe -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body text-center">
+          <h5 class="card-title mb-3">
+            <i class="bi bi-people" style="font-size: 2rem;"></i>
+          </h5>
+          <h6>Alunos da Minha Classe</h6>
+          <p class="card-text small text-muted">
+            Visualize todos os alunos matriculados na sua classe.
+          </p>
+          <a href="#" class="btn btn-primary btn-sm">
+            👥 Ver Alunos
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Matricular Aluno -->
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body text-center">
+          <h5 class="card-title mb-3">
+            <i class="bi bi-person-plus" style="font-size: 2rem;"></i>
+          </h5>
+          <h6>Matricular Aluno</h6>
+          <p class="card-text small text-muted">
+            Adicione novos alunos à sua classe.
+          </p>
+          <a href="#" class="btn btn-primary btn-sm">
+            ➕ Matricular
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INFORMAÇÕES ÚTEIS -->
+  <div class="alert alert-info mt-5" role="alert">
+    <h5 class="alert-heading">ℹ️ Como funciona o Diário?</h5>
+    <hr>
+    <ol class="mb-0">
+      <li><strong>Clique em "Listar Aulas"</strong> para ver todas as aulas da sua classe</li>
+      <li><strong>Para cada aula não concluída</strong>, clique em "📝 Preencher Diário"</li>
+      <li><strong>Preencha os dados:</strong> presença dos alunos, visitantes, bíblias, ofertas, dízimos e observações</li>
+      <li><strong>Clique em "💾 Salvar Diário"</strong> para registrar os dados</li>
+      <li><strong>Após salvar,</strong> você será redirecionado de volta para a lista de aulas</li>
+    </ol>
+    <hr>
+    <p class="mb-0"><strong>⚠️ Importante:</strong> Após o secretário ou superintendente concluir a aula, você não poderá mais editar o diário.</p>
+  </div>
+
+  <!-- STATUS (SEM LÓGICA) -->
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <div class="card bg-light">
+        <div class="card-body">
+          <h6 class="card-title">📊 Resumo</h6>
+          <p class="mb-1">
+            <span class="badge bg-warning text-dark">Aulas Ativas</span>
+            <strong>0</strong>
+          </p>
+          <p class="mb-0">
+            <span class="badge bg-success">Aulas Preenchidas</span>
+            <strong>0</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card {
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  }
+  .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+  }
+  .btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+  }
+</style>
+
+<script>
+</script>
+{% endblock conteudo %}

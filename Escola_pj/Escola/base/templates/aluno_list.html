@@ -1,0 +1,83 @@
+{% block conteudo %}
+<div class="container py-4">
+  <h2>Lista de Alunos</h2>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <form method="get" class="row g-2 align-items-center">
+        <div class="col-md-6">
+          <label for="trimestre_filter" class="form-label">Filtrar por Trimestre:</label>
+          <select id="trimestre_filter" class="form-select">
+            <option value="">-- Trimestre Ativo --</option>
+            <option>1º / 2025</option>
+            <option>2º / 2025</option>
+            <option>3º / 2025</option>
+          </select>
+        </div>
+        <div class="col-md-6 d-flex gap-2 align-items-end">
+          <button type="submit" class="btn btn-primary">Filtrar</button>
+          <a href="#" class="btn btn-secondary">Limpar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="alert alert-info" role="alert">
+    <strong>Trimestre selecionado:</strong> 1º / 2025
+    <span class="badge bg-success">Ativo</span>
+    <br>
+    <strong>Total de alunos:</strong> 25
+  </div>
+
+  <div class="card mt-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Classe Teen <small>(Igreja Central)</small></h5>
+    </div>
+    <table class="table table-striped mb-0">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Data Nascimento</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>João Silva</td>
+          <td>12/03/2010</td>
+          <td><a class="btn btn-sm btn-warning" href="#">Transferir</a></td>
+        </tr>
+        <tr>
+          <td>Maria Oliveira</td>
+          <td>20/08/2011</td>
+          <td><a class="btn btn-sm btn-warning" href="#">Transferir</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card mt-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Classe Juvenil <small>(Igreja Nova Vida)</small></h5>
+    </div>
+    <table class="table table-striped mb-0">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Data Nascimento</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Carlos Mendes</td>
+          <td>05/11/2009</td>
+          <td><a class="btn btn-sm btn-warning" href="#">Transferir</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <a class="btn btn-secondary mt-3" href="#">Voltar</a>
+</div>
+{% endblock conteudo %}
