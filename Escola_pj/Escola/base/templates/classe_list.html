@@ -1,0 +1,55 @@
+{% extends 'tela_inicial/layout_base.html' %}
+
+{% block conteudo %}
+<div class="container py-4">
+  <h2>Gerenciar Classes</h2>
+
+  <form method="post" action="{% url 'classe_create' %}" class="row g-2 align-items-center mb-3">
+    {% csrf_token %}
+    <div class="col-auto">
+      <input type="text" name="nome" class="form-control" placeholder="Nome da nova classe" required>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary">Criar Classe</button>
+    </div>
+  </form>
+
+  <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Igreja</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in classes %}
+      <tr>
+        <td>
+          <form method="post" action="{% url 'classe_edit' c.id %}" class="d-flex">
+            {% csrf_token %}
+            <input type="text" name="nome" value="{{ c.nome }}" class="form-control form-control-sm me-2" required>
+            <button type="submit" class="btn btn-sm btn-success">Salvar</button>
+          </form>
+        </td>
+        <td>
+          {% if c.igreja %}
+            {{ c.igreja.nome }}
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        <td>
+          <!-- futuramente adicionar exclusão se necessário -->
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3" class="text-center">Nenhuma classe cadastrada.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a class="btn btn-secondary" href="{% url 'dashboard' %}">Voltar</a>
+</div>
+{% endblock conteudo %}

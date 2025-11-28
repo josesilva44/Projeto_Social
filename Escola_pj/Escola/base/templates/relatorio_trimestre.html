@@ -1,0 +1,90 @@
+{% extends 'tela_inicial/layout_base.html' %}
+
+{% block conteudo %}
+<div class="container py-4">
+  <h2>Relatório por Trimestre</h2>
+
+  <div class="mb-3">
+    {% if request.user.role == 'superintendente' %}
+      <a class="btn btn-secondary" href="{% url 'periodo_list' %}">Voltar</a>
+    {% else %}
+      <a class="btn btn-secondary" href="{% url 'dashboard' %}">Voltar</a>
+    {% endif %}
+  </div>
+
+  {% if resumos %}
+    <div class="accordion" id="accordionTrimestres">
+      {% for resumo in resumos %}
+        {% with periodo=resumo.periodo %}
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading{{ periodo.id }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ periodo.id }}" aria-expanded="false" aria-controls="collapse{{ periodo.id }}">
+              {{ periodo.trimestre }} / {{ periodo.ano }} - {{ periodo.igreja.nome }}
+              <span class="badge bg-secondary ms-3">Diários: {{ resumo.total_diarios }}</span>
+            </button>
+          </h2>
+          <div id="collapse{{ periodo.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ periodo.id }}" data-bs-parent="#accordionTrimestres">
+            <div class="accordion-body">
+              <div class="row">
+                <div class="col-md-3">
+                  <h6>Presença</h6>
+                  <p>Presentes: <strong>{{ resumo.alunos_presentes }}</strong></p>
+                  <p>Ausentes: <strong>{{ resumo.alunos_ausentes }}</strong></p>
+                </div>
+                <div class="col-md-3">
+                  <h6>Materiais</h6>
+                  <p>Visitantes: <strong>{{ resumo.visitantes }}</strong></p>
+                  <p>Bíblias: <strong>{{ resumo.biblias }}</strong></p>
+                  <p>Revistas: <strong>{{ resumo.revistas }}</strong></p>
+                </div>
+                <div class="col-md-3">
+                  <h6>Finanças</h6>
+                  <p>Ofertas: <strong>R$ {{ resumo.ofertas|floatformat:2 }}</strong></p>
+                  <p>Dízimos: <strong>R$ {{ resumo.dizimos|floatformat:2 }}</strong></p>
+                </div>
+                <div class="col-md-3 text-end align-self-center">
+                  <a class="btn btn-primary" href="{% url 'aula_list' %}?trimestre={{ periodo.id }}">Ver Aulas</a>
+                </div>
+              </div>
+
+              <hr>
+
+              <h6 class="mt-2">Diários por Aula</h6>
+              <div class="list-group">
+                {% for aula in periodo.aulas.all %}
+                  {% if aula.diario %}
+                    <div class="list-group-item">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                          <strong>{{ aula.titulo }}</strong> — {{ aula.classe.nome }} ({{ aula.data_prevista|date:'d/m/Y' }})
+                        </div>
+                        <div>
+                          <a href="{% url 'relatorio_aula' aula.id %}" class="btn btn-sm btn-outline-primary">Ver Diário</a>
+                        </div>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                      <div>
+                        <strong>{{ aula.titulo }}</strong> — {{ aula.classe.nome }} ({{ aula.data_prevista|date:'d/m/Y' }})
+                      </div>
+                      <div>
+                        <span class="text-muted">Sem diário</span>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+
+            </div>
+          </div>
+        </div>
+        {% endwith %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">Nenhum trimestre concluído encontrado.</div>
+  {% endif %}
+
+</div>
+{% endblock conteudo %}

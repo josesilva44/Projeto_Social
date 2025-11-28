@@ -1,0 +1,124 @@
+{% extends 'tela_inicial/layout_base.html' %}
+
+{% block conteudo %}
+<div class="container py-4">
+    <h2>Criar Aulas - {{ trimestre.trimestre }}/{{ trimestre.ano }}</h2>
+    
+    <div class="alert alert-info" role="alert">
+        <strong>Trimestre:</strong> {{ trimestre.trimestre }}/{{ trimestre.ano }} ({{ trimestre.igreja.nome }})<br>
+        <strong>Status:</strong>
+        {% if trimestre.concluido %}
+            <span class="badge bg-danger">Concluído</span>
+        {% elif trimestre.ativo %}
+            <span class="badge bg-success">Ativo</span>
+        {% else %}
+            <span class="badge bg-warning">Inativo</span>
+        {% endif %}<br>
+        <p class="mt-2 mb-0"><em>Criando aulas para todas as classes da igreja...</em></p>
+    </div>
+
+    {% if trimestre.concluido %}
+        <div class="alert alert-danger" role="alert">
+            <strong>🔒 Atenção:</strong> Este trimestre foi concluído. Não é possível adicionar ou editar aulas.
+        </div>
+    {% endif %}
+
+    <form method="post" id="aulaForm">
+        {% csrf_token %}
+        
+        <div id="aulasContainer">
+            <!-- Aulas serão adicionadas aqui dinamicamente -->
+            <div class="aula-row mb-4 p-3 border rounded">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label">Título da Aula</label>
+                        <input type="text" name="titulo_1" class="form-control" placeholder="ex: Aula 01 - Tema" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Data Prevista</label>
+                        <input type="date" name="data_1" class="form-control" required>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-sm btn-danger mt-2 remove-aula">Remover</button>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <button type="button" class="btn btn-secondary" id="addAulaBtn">+ Adicionar Aula</button>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">💾 Criar Aulas</button>
+            <a href="{% url 'periodo_list' %}" class="btn btn-secondary">← Voltar</a>
+        </div>
+    </form>
+
+    <input type="hidden" id="aulaCount" value="1">
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('aulasContainer');
+    const countInput = document.getElementById('aulaCount');
+    const addBtn = document.getElementById('addAulaBtn');
+    const form = document.getElementById('aulaForm');
+
+    // Adicionar nova aula
+    addBtn.addEventListener('click', function() {
+        let count = parseInt(countInput.value) + 1;
+        countInput.value = count;
+
+        const newRow = document.createElement('div');
+        newRow.className = 'aula-row mb-4 p-3 border rounded';
+        newRow.innerHTML = `
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">Título da Aula</label>
+                    <input type="text" name="titulo_${count}" class="form-control" placeholder="ex: Aula ${String(count).padStart(2, '0')} - Tema" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Data Prevista</label>
+                    <input type="date" name="data_${count}" class="form-control" required>
+                </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-danger mt-2 remove-aula">Remover</button>
+        `;
+
+        container.appendChild(newRow);
+
+        // Adicionar listener ao botão remover
+        newRow.querySelector('.remove-aula').addEventListener('click', function() {
+            newRow.remove();
+        });
+    });
+
+    // Remover aula
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-aula')) {
+            e.target.closest('.aula-row').remove();
+        }
+    });
+
+    // Enviar formulário
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const count = parseInt(countInput.value);
+        if (count === 0) {
+            alert('Adicione pelo menos uma aula!');
+            return;
+        }
+
+        // Adicionar campo oculto com a contagem
+        const countField = document.createElement('input');
+        countField.type = 'hidden';
+        countField.name = 'aula_count';
+        countField.value = count;
+        form.appendChild(countField);
+
+        form.submit();
+    });
+});
+</script>
+
+{% endblock conteudo %}

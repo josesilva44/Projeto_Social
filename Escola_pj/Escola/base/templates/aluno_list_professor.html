@@ -1,0 +1,80 @@
+{% extends 'tela_inicial/layout_base.html' %}
+
+{% block conteudo %}
+<div class="container py-5">
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h2>Alunos da Classe {{ classe.nome }}</h2>
+    </div>
+    <div class="col-md-6 text-end">
+      <a href="{% url 'dashboard' %}" class="btn btn-secondary">Voltar</a>
+    </div>
+  </div>
+
+  <!-- Filtro de Trimestre -->
+  <div class="mb-4">
+    <form method="GET" class="row g-2 align-items-end">
+      <div class="col-md-4">
+        <label for="trimestre" class="form-label">Trimestre:</label>
+        <select name="trimestre" id="trimestre" class="form-select">
+          <option value="">-- Selecionar --</option>
+          {% for t in todos_trimestres %}
+            <option value="{{ t.id }}" {% if t.id == trimestre_selecionado.id %}selected{% endif %}>
+              {{ t.trimestre }}/{{ t.ano }}
+              {% if t.ativo %}(Ativo){% endif %}
+              {% if t.concluido %}(Concluído){% endif %}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Informações do Trimestre -->
+  {% if trimestre_selecionado %}
+    <div class="alert alert-info">
+      <strong>Trimestre Selecionado:</strong> {{ trimestre_selecionado.trimestre }}/{{ trimestre_selecionado.ano }}
+      {% if trimestre_selecionado.ativo %}
+        <span class="badge bg-success">Ativo</span>
+      {% elif trimestre_selecionado.concluido %}
+        <span class="badge bg-danger">Concluído</span>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <!-- Lista de Alunos -->
+  {% if alunos %}
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th>Data de Nascimento</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for aluno in alunos %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ aluno.nome }}</td>
+              <td>{{ aluno.data_nascimento|date:"d/m/Y" }}</td>
+              <td>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-warning text-center">
+      <p class="mb-0">Nenhum aluno matriculado nesta classe para o trimestre selecionado.</p>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock conteudo %}

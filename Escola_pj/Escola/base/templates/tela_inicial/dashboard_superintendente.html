@@ -1,0 +1,98 @@
+{% extends 'tela_inicial/layout_base.html' %}
+
+{% comment %} O que superintendente pode fazer? {% endcomment %}
+{% block conteudo %}
+<div class="container py-5 text-center">
+  <h1 class="mb-4">Painel do Superintendente</h1>
+
+  <!-- BOTÕES -->
+  <button id="btnToggleForm" class="btn btn-secondary">Cadastrar Usuário</button>
+  <a class="btn btn-secondary" href="{% url 'aluno_list' %}">Listar Alunos</a>
+  <a class="btn btn-secondary" href="{% url 'professor_list' %}">Listar Professores</a>
+  <a class="btn btn-secondary" href="{% url 'secretario_list' %}">Listar Secretários</a>
+  <a class="btn btn-secondary" href="{% url 'classe_list' %}">Gerenciar Classes</a>
+  <a class="btn btn-secondary" href="{% url 'aluno_matricular' %}">Matricular Aluno</a>
+  <a class="btn btn-secondary" href="{% url 'aula_list' %}">Relatório de Aulas</a>
+  <a class="btn btn-secondary" href="{% url 'periodo_iniciar' %}">Iniciar Trimestre</a>
+  <a class="btn btn-secondary" href="{% url 'periodo_list' %}">Gerenciar Trimestres</a>
+
+  <!-- FORMULÁRIO DE CADASTRO DE PROFESSOR -->
+  <div id="formContainer" class="mt-4 d-none">
+    <form method="POST" action="{% url 'cadastrar_professor' %}" class="card p-4 shadow-sm text-start">
+      {% csrf_token %}
+
+      <!-- Criar novo usuário -->
+      <h5 class="mb-3">Criar novo usuário</h5>
+
+      <div class="mb-3">
+        <label for="username" class="form-label">Nome de Usuário</label>
+        <input type="text" name="username" id="username" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">E-mail</label>
+        <input type="email" name="email" id="email" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="senha" class="form-label">Senha</label>
+        <input type="password" name="senha" id="senha" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="tipo_usuario" class="form-label">Tipo de Usuário</label>
+        <select name="tipo_usuario" id="tipo_usuario" class="form-select" required>
+          <option value="">-- Selecione --</option>
+          <option value="professor">Professor</option>
+          <option value="secretario">Secretário</option>
+        </select>
+      </div>
+
+      <div id="classeContainer" class="mb-3" style="display: none;">
+        <label for="classe" class="form-label">Classe</label>
+        <select name="classe" id="classe" class="form-select">
+          <option value="">-- Selecione uma classe --</option>
+          {% for classe in classes %}
+            <option value="{{ classe.id }}">{{ classe.nome }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+        <button type="button" class="btn btn-secondary" id="btnCancelForm">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const btnToggleForm = document.getElementById('btnToggleForm');
+    const formContainer = document.getElementById('formContainer');
+    const btnCancelForm = document.getElementById('btnCancelForm');
+    const tipoUsuario = document.getElementById('tipo_usuario');
+    const classeContainer = document.getElementById('classeContainer');
+    const classeSelect = document.getElementById('classe');
+
+    btnToggleForm.addEventListener('click', function() {
+      formContainer.classList.remove('d-none');
+    });
+
+    btnCancelForm.addEventListener('click', function() {
+      formContainer.classList.add('d-none');
+    });
+
+    tipoUsuario.addEventListener('change', function() {
+      if (this.value === 'professor') {
+        classeContainer.style.display = 'block';
+        classeSelect.required = true;
+      } else {
+        classeContainer.style.display = 'none';
+        classeSelect.required = false;
+        classeSelect.value = '';
+      }
+    });
+  });
+</script>
+{% endblock conteudo %}

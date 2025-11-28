@@ -1,0 +1,55 @@
+{% extends 'tela_inicial/layout_base.html' %}
+
+{% block conteudo %}
+<div class="container py-4">
+    <h2>Lista de Trimestres</h2>
+
+    {% if periodos %}
+    <form method="post" action="{% url 'periodo_concluir' %}">
+        {% csrf_token %}
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Igreja</th>
+                    <th>Trimestre</th>
+                    <th>Ano</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in periodos %}
+                <tr>
+                    <td>
+                        {% if not p.concluido %}
+                            <input type="radio" name="periodo_id" value="{{ p.id }}">
+                        {% endif %}
+                    </td>
+                    <td>{{ p.igreja.nome }}</td>
+                    <td>{{ p.trimestre }}</td>
+                    <td>{{ p.ano }}</td>
+                    <td>
+                        {% if p.concluido %}
+                            Concluído
+                        {% elif p.ativo %}
+                            Ativo
+                        {% else %}
+                            Inativo
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="mt-2">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Confirmar conclusão do trimestre selecionado?');">Concluir Trimestre Selecionado</button>
+            <a class="btn btn-secondary ms-2" href="{% url 'periodo_iniciar' %}">Iniciar novo trimestre</a>
+        </div>
+    </form>
+    {% else %}
+        <p>Nenhum trimestre cadastrado.</p>
+        <a class="btn btn-primary" href="{% url 'periodo_iniciar' %}">Iniciar novo trimestre</a>
+    {% endif %}
+</div>
+{% endblock conteudo %}

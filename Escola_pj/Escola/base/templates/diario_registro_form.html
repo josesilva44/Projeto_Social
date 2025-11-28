@@ -1,0 +1,114 @@
+{% extends 'tela_inicial/layout_base.html' %}
+
+{% block conteudo %}
+<div class="container py-4">
+  <h2>Preencher Diário: {{ aula.titulo }}</h2>
+
+  <div class="alert alert-info mb-4">
+    <strong>Aula:</strong> {{ aula.titulo }}<br>
+    <strong>Data prevista:</strong> {{ aula.data_prevista|date:"d/m/Y" }}<br>
+    <strong>Classe:</strong> {{ aula.classe.nome }} ({{ aula.classe.igreja.nome }})<br>
+    <strong>Trimestre:</strong> {{ aula.trimestre.trimestre }}/{{ aula.trimestre.ano }}
+    {% if aula.concluida %}<span class="badge bg-success ms-2">✓ Concluída</span>{% endif %}
+    {% if aula.trimestre.concluido %}<span class="badge bg-danger ms-2">Trimestre Concluído</span>{% endif %}
+  </div>
+
+  {% if aula.concluida or aula.trimestre.concluido %}
+    <div class="alert alert-danger" role="alert">
+      <strong>🔒 Atenção:</strong>
+      {% if aula.concluida %}
+        Esta aula foi concluída. O diário não pode mais ser editado.
+      {% endif %}
+      {% if aula.trimestre.concluido %}
+        O trimestre foi concluído. O diário não pode mais ser editado.
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <form method="post" class="card p-4">
+    {% csrf_token %}
+
+    <!-- PRESENÇA -->
+    <h4 class="mb-3">Presença</h4>
+    {% if alunos %}
+      <div class="list-group mb-4">
+        {% for aluno in alunos %}
+          <label class="list-group-item">
+            <input type="checkbox" name="presente" value="{{ aluno.id }}" class="form-check-input me-2">
+            {{ aluno.nome }}
+          </label>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-warning">Nenhum aluno matriculado nesta classe.</div>
+    {% endif %}
+
+    <!-- INFORMAÇÕES DA AULA -->
+    <h4 class="mb-3">Informações da Aula</h4>
+    
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="visitantes" class="form-label">Visitantes</label>
+        <input type="number" id="visitantes" name="visitantes" class="form-control" value="{{ diario.visitantes }}" min="0">
+      </div>
+      <div class="col-md-6">
+        <label for="biblias" class="form-label">Bíblias</label>
+        <input type="number" id="biblias" name="biblias" class="form-control" value="{{ diario.biblias }}" min="0">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="revistas" class="form-label">Revistas</label>
+        <input type="number" id="revistas" name="revistas" class="form-control" value="{{ diario.revistas }}" min="0">
+      </div>
+      <div class="col-md-6">
+        <!-- Espaço para balancear o layout -->
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="ofertas" class="form-label">Ofertas (R$)</label>
+        <input type="number" id="ofertas" name="ofertas" class="form-control" value="{{ diario.ofertas }}" min="0" step="0.01">
+      </div>
+      <div class="col-md-6">
+        <label for="dizimos" class="form-label">Dízimos (R$)</label>
+        <input type="number" id="dizimos" name="dizimos" class="form-control" value="{{ diario.dizimos }}" min="0" step="0.01">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="observacoes" class="form-label">Observações</label>
+      <textarea id="observacoes" name="observacoes" class="form-control" rows="4">{{ diario.observacoes }}</textarea>
+    </div>
+
+    <!-- BOTÕES -->
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-primary" {% if aula.concluida or aula.trimestre.concluido %}disabled{% endif %}>💾 Salvar Diário</button>
+      {% if user.role == 'professor' %}
+        <a href="{% url 'aula_list_professor' %}" class="btn btn-secondary">← Cancelar</a>
+      {% else %}
+        <a href="{% url 'aula_list' %}" class="btn btn-secondary">← Cancelar</a>
+      {% endif %}
+    </div>
+  </form>
+
+  <!-- Informações sobre preenchimento -->
+  <div class="alert alert-warning mt-4" role="alert">
+    <strong>⚠️ Aviso:</strong> Após o secretário ou superintendente concluir a aula, o diário não poderá mais ser editado.
+  </div>
+</div>
+
+<style>
+  .list-group-item {
+    cursor: pointer;
+  }
+  .list-group-item:hover {
+    background-color: #f8f9fa;
+  }
+  .list-group-item input[type="checkbox"] {
+    cursor: pointer;
+  }
+</style>
+{% endblock conteudo %}

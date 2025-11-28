@@ -1,0 +1,31 @@
+{% extends 'tela_inicial/layout_base.html' %}
+
+{% block conteudo %}
+<div class="container py-4">
+  <h2>Presenças</h2>
+
+  <div class="mb-3">
+    {% if request.user.role == 'professor' %}
+      <a class="btn btn-secondary" href="{% url 'aula_list_professor' %}">⬅ Voltar</a>
+    {% else %}
+      <a class="btn btn-secondary" href="{% url 'aula_list' %}">⬅ Voltar</a>
+    {% endif %}
+  </div>
+
+  {% if presencas %}
+    <ul class="list-group">
+      {% for p in presencas %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ p.aluno.nome }}
+          <span class="badge {% if p.status == 'P' %}bg-success{% else %}bg-danger{% endif %}">
+            {% if p.status == 'P' %}Presente{% else %}Ausente{% endif %}
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="alert alert-info">Nenhum registro de presença para esta aula.</div>
+  {% endif %}
+
+</div>
+{% endblock conteudo %}

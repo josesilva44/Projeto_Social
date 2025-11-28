@@ -1,0 +1,48 @@
+{% extends 'tela_inicial/layout_base.html' %}
+
+{% block conteudo %}
+<div class="container py-4">
+    <h2>Iniciar Trimestre</h2>
+    <form method="post" class="mt-3">
+        {% csrf_token %}
+
+        {% if user_igreja %}
+            <div class="mb-3">
+                <label class="form-label">Igreja</label>
+                <p class="form-control-plaintext">{{ user_igreja.nome }}</p>
+                <input type="hidden" name="igreja" value="{{ user_igreja.id }}" />
+            </div>
+        {% else %}
+            <div class="mb-3">
+                <label for="igreja" class="form-label">Igreja</label>
+                <select name="igreja" id="igreja" class="form-select" required>
+                    <option value="">-- Selecione --</option>
+                    {% for ig in igrejas %}
+                        <option value="{{ ig.id }}">{{ ig.nome }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        {% endif %}
+
+        <div class="mb-3">
+            <label for="nome" class="form-label">Trimestre</label>
+            <select name="nome" id="nome" class="form-select" required>
+                <option value="">-- Selecione --</option>
+                <option value="1">1º Trimestre</option>
+                <option value="2">2º Trimestre</option>
+                <option value="3">3º Trimestre</option>
+                <option value="4">4º Trimestre</option>
+            </select>
+        </div>
+
+        {% now "Y" as current_year %}
+        <div class="mb-3">
+            <label for="ano" class="form-label">Ano</label>
+            <input type="number" name="ano" id="ano" class="form-control" value="{{ current_year }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary" onclick="return confirm('Ao iniciar este trimestre, o anterior será concluído e este será ativado. Tem certeza que deseja continuar?')">Iniciar Trimestre</button>
+        <a class="btn btn-secondary ms-2" href="{% url 'dashboard' %}">Cancelar</a>
+    </form>
+</div>
+{% endblock conteudo %}

@@ -1,0 +1,44 @@
+{% extends 'tela_inicial/layout_base.html' %}
+
+{% block conteudo %}
+<div class="container py-4">
+  <h2>Lista de Professores</h2>
+
+  {% if trimestre_ativo and trimestre_ativo.concluido %}
+    <div class="alert alert-warning" role="alert">
+      <strong>⚠️ Aviso:</strong> O trimestre foi concluído. Professores não podem ser removidos ou vinculados.
+    </div>
+  {% endif %}
+
+  <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Usuário</th>
+        <th>Nome Completo</th>
+        <th>Classe</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for prof in professores %}
+        <tr>
+          <td>{{ prof.usuario.username }}</td>
+          <td>{{ prof.usuario.get_full_name }}</td>
+          <td>{{ prof.classe.nome }}</td>
+          <td>
+            <form method="post" action="{% url 'professor_delete' prof.id %}" style="display:inline;" onsubmit="return confirm('Confirma exclusão do professor {{ prof.usuario.username }}?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-danger" {% if trimestre_ativo and trimestre_ativo.concluido %}disabled title="Trimestre concluído - não é possível remover professores"{% endif %}>Remover</button>
+            </form>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="3" class="text-center">Nenhum professor encontrado.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a class="btn btn-secondary" href="{% url 'dashboard' %}">Voltar</a>
+</div>
+{% endblock conteudo %}
