@@ -6,9 +6,7 @@
     <div class="col">
       <h2>Minhas Aulas da Classe</h2>
     </div>
-    <div class="col text-end">
-      <a href="{% url 'home' %}" class="btn btn-secondary">Voltar</a>
-    </div>
+    
   </div>
 
   {% if aulas %}
@@ -59,4 +57,6 @@
     <strong>ℹ️ Informação:</strong> Clique em "Preencher Diário" para registrar presença, visitantes, ofertas e observações de cada aula.
   </div>
 </div>
+
+{% block footer %}{% endblock %}
 {% endblock conteudo %}

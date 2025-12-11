@@ -4,14 +4,6 @@
 <div class="container py-4">
   <h2>Relatório por Trimestre</h2>
 
-  <div class="mb-3">
-    {% if request.user.role == 'superintendente' %}
-      <a class="btn btn-secondary" href="{% url 'periodo_list' %}">Voltar</a>
-    {% else %}
-      <a class="btn btn-secondary" href="{% url 'dashboard' %}">Voltar</a>
-    {% endif %}
-  </div>
-
   {% if resumos %}
     <div class="accordion" id="accordionTrimestres">
       {% for resumo in resumos %}
@@ -87,4 +79,6 @@
   {% endif %}
 
 </div>
+
+{% block footer %}{% endblock %}
 {% endblock conteudo %}

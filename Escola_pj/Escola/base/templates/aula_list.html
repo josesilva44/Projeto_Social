@@ -4,9 +4,7 @@
 <div class="container py-4">
   <h2>Relatório de Aulas</h2>
 
-  <div class="mb-3">
-    <a class="btn btn-secondary" href="{% url 'dashboard' %}">Voltar ao Dashboard</a>
-  </div>
+
 
   {% if aulas %}
     <div class="table-responsive">
@@ -55,4 +53,6 @@
   {% endif %}
 </div>
 
+
+{% block footer %}{% endblock %}
 {% endblock conteudo %}

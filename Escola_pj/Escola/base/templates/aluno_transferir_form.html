@@ -35,9 +35,10 @@
 
     <div class="d-flex gap-2">
       <button type="submit" class="btn btn-primary" {% if trimestre.concluido %}disabled{% endif %}>Transferir</button>
-      <a class="btn btn-secondary" href="{% url 'aluno_list' %}{% if trimestre %}?trimestre={{ trimestre.id }}{% endif %}">← Cancelar</a>
     </div>
   </form>
 </div>
 
+
+{% block footer %}{% endblock %}
 {% endblock conteudo %}

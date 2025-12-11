@@ -42,7 +42,8 @@
         </div>
 
         <button type="submit" class="btn btn-primary" onclick="return confirm('Ao iniciar este trimestre, o anterior será concluído e este será ativado. Tem certeza que deseja continuar?')">Iniciar Trimestre</button>
-        <a class="btn btn-secondary ms-2" href="{% url 'dashboard' %}">Cancelar</a>
     </form>
 </div>
+
+{% block footer %}{% endblock %}
 {% endblock conteudo %}

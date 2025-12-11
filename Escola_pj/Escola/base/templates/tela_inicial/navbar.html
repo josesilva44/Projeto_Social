@@ -1,0 +1,44 @@
+{% load static %}
+<header id="header" class="header fixed-top d-flex align-items-center">
+  <div class="container d-flex align-items-center justify-content-between">
+
+    <a href="/" class="logo d-flex align-items-center text-decoration-none">
+      <span class="d-none d-lg-block">EBD</span>
+    </a>
+
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a class="nav-link scrollto" href="{% url 'dashboard' %}">Início</a></li>
+        {% if user.is_authenticated and user.role == 'professor' %}
+          <li><a class="nav-link scrollto" href="{% url 'aula_list_professor' %}">Minhas Aulas</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'aluno_list_professor' %}">Meus Alunos</a></li>
+        {% endif %}
+
+        {% if user.is_authenticated and user.role == 'secretario' %}
+          <li><a class="nav-link scrollto" href="{% url 'aula_list' %}">Aulas</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'aluno_list' %}">Alunos</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'periodo_list' %}">Períodos</a></li>
+        {% endif %}
+
+        {% if user.is_authenticated and user.role == 'superintendente' %}
+          <li><a class="nav-link scrollto" href="{% url 'classe_list' %}">Classes</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'professor_list' %}">Professores</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'secretario_list' %}">Secretários</a></li>
+          <li><a class="nav-link scrollto" href="{% url 'periodo_iniciar' %}">Iniciar Período</a></li>
+        {% endif %}
+
+        {% if not user.is_authenticated %}
+          <li><a class="nav-link scrollto" href="{% url 'login' %}">Entrar</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    {% if user.is_authenticated %}
+      <form method="post" action="{% url 'logout' %}" style="display:inline; margin:0;">
+        {% csrf_token %}
+        <button type="submit" class="btn-get-started scrollto" style="border:none;">Logout</button>
+      </form>
+    {% endif %}
+
+  </div>
+</header>

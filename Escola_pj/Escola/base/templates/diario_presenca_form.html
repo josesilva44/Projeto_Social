@@ -4,13 +4,7 @@
 <div class="container py-4">
   <h2>Presenças</h2>
 
-  <div class="mb-3">
-    {% if request.user.role == 'professor' %}
-      <a class="btn btn-secondary" href="{% url 'aula_list_professor' %}">⬅ Voltar</a>
-    {% else %}
-      <a class="btn btn-secondary" href="{% url 'aula_list' %}">⬅ Voltar</a>
-    {% endif %}
-  </div>
+  
 
   {% if presencas %}
     <ul class="list-group">
@@ -28,4 +22,6 @@
   {% endif %}
 
 </div>
+
+{% block footer %}{% endblock %}
 {% endblock conteudo %}

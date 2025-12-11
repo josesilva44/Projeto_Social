@@ -1,0 +1,64 @@
+{% extends 'tela_inicial/layout_base.html' %}
+
+{% block title %}Cadastrar Professor{% endblock %}
+
+{% block conteudo %}
+<div class="container py-4">
+  <h2>Cadastrar/Associar Professor</h2>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <p>Você pode associar um usuário existente como professor ou criar um novo usuário.</p>
+    </div>
+  </div>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label class="form-label">Usuário existente (opcional)</label>
+      <select name="usuario" class="form-select">
+        <option value="">-- Selecionar usuário --</option>
+        {% for u in usuarios_disponiveis %}
+          <option value="{{ u.id }}">{{ u.username }} ({{ u.email }})</option>
+        {% empty %}
+          <option value="">Nenhum usuário disponível</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Criar novo usuário (opcional)</label>
+      <div class="row g-2">
+        <div class="col-md-4"><input type="text" name="username" class="form-control" placeholder="Usuário"></div>
+        <div class="col-md-4"><input type="email" name="email" class="form-control" placeholder="Email"></div>
+        <div class="col-md-4"><input type="password" name="password" class="form-control" placeholder="Senha"></div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Tipo de usuário</label>
+      <select name="tipo_usuario" class="form-select">
+        <option value="professor">Professor</option>
+        <option value="secretario">Secretário</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Classe (se for professor)</label>
+      <select name="classe" class="form-select">
+        <option value="">-- Selecionar classe --</option>
+        {% for c in classes %}
+          <option value="{{ c.id }}">{{ c.nome }}{% if c.igreja %} - {{ c.igreja.nome }}{% endif %}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-primary">Salvar</button>
+    </div>
+  </form>
+</div>
+
+{% block footer %}{% endblock %}
+{% endblock conteudo %}

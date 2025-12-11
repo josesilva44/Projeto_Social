@@ -1,0 +1,89 @@
+{% load static %}
+<footer id="footer" class="footer">
+  <div class="footer-top">
+    <div class="container">
+      <!-- Logo e Informações Centralizadas -->
+      <div class="row mb-5">
+        <div class="col-12 text-center">
+        
+          <p class="mb-3"><strong>Sistema de Gestão Escolar</strong><br>Gerenciamento completo de classes, alunos e períodos letivos.</p>
+          <div class="social-links d-flex justify-content-center">
+            <a href="#" class="twitter" title="Twitter" data-bs-toggle="tooltip"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="facebook" title="Facebook" data-bs-toggle="tooltip"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram" title="Instagram" data-bs-toggle="tooltip"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin" title="LinkedIn" data-bs-toggle="tooltip"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Links Universais por Perfil -->
+      <div class="row gy-5 text-center">
+        <!-- Acesso -->
+        <div class="col-lg-4 col-md-6 footer-links">
+          <h4>Acesso</h4>
+          <ul class="justify-content-center">
+            <li>
+              <i class="bi bi-house-door"></i> 
+              <a href="{% url 'dashboard' %}" class="link-muted">Início</a>
+            </li>
+            {% if user.is_authenticated %}
+              <li>
+                <i class="bi bi-box-arrow-right"></i> 
+                <a href="{% url 'logout' %}" class="link-muted">Sair</a>
+              </li>
+            {% else %}
+              <li>
+                <i class="bi bi-box-arrow-in-right"></i> 
+                <a href="{% url 'login' %}" class="link-muted">Entrar</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+
+        <!-- Informações -->
+        <div class="col-lg-4 col-md-6 footer-links">
+          <h4>Informações</h4>
+          <ul class="justify-content-center">
+            <li>
+              <i class="bi bi-info-circle"></i> 
+              <span class="link-muted">Versão 1.0.0</span>
+            </li>
+            <li>
+              <i class="bi bi-book"></i> 
+              <span class="link-muted">Sistema web de gestão escolar</span>
+            </li>
+            <li>
+              <i class="bi bi-question-circle"></i> 
+              <span class="link-muted">© 2024 EBD Sistema</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Contato -->
+        <div class="col-lg-4 col-md-6 footer-links">
+          <h4>Contato</h4>
+          <ul class="justify-content-center">
+            <li>
+              <i class="bi bi-telephone"></i> 
+              <a href="tel:+551199999999" class="link-muted">+55 (11) 99999-9999</a>
+            </li>
+            <li>
+              <i class="bi bi-envelope"></i> 
+              <a href="mailto:contato@ebd-sistema.org" class="link-muted">contato@ebd-sistema.org</a>
+            </li>
+            <li>
+              <i class="bi bi-headset"></i> 
+              <span class="link-muted">Atendimento seg-sex 9h-17h</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container text-center py-4">
+    <div class="copyright">
+      &copy; {% now "Y" %} <strong>EBD Sistema</strong> — Todos os direitos reservados.
+    </div>
+  </div>
+</footer>

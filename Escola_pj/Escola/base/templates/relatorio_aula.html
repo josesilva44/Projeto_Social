@@ -108,8 +108,6 @@
 
   <!-- BOTÕES DE AÇÃO -->
   <div class="d-flex gap-2 mt-4">
-    <a class="btn btn-secondary" href="{% url 'aula_list' %}">Voltar para Relatório de Aulas</a>
-
     <!-- Botão Preencher/Editar Diário (só se aula não foi concluída) -->
     {% if not aula.concluida %}
       <a href="{% url 'diario_registro' aula.id %}" class="btn btn-primary">📝 Preencher/Editar Diário</a>
@@ -134,4 +132,6 @@
   {% endif %}
 </div>
 
+
+{% block footer %}{% endblock %}
 {% endblock conteudo %}

@@ -49,8 +49,9 @@
 
     <div class="d-flex gap-2">
       <button type="submit" class="btn btn-primary" {% if trimestre.concluido %}disabled{% endif %}>Matricular selecionados / Criar e matricular</button>
-      <a class="btn btn-secondary" href="{% url 'home' %}">Voltar</a>
     </div>
   </form>
 </div>
+
+{% block footer %}{% endblock %}
 {% endblock conteudo %}
