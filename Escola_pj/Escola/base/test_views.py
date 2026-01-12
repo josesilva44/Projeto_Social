@@ -53,6 +53,16 @@ class DashboardViewTestCase(BaseTestCase):
         self.assertTemplateUsed(response, 'tela_inicial/dashboard_superintendente.html')
         self.assertIn('perfil', response.context)
         self.assertEqual(response.context['perfil'], 'Superintendente')
+        # Verifica os contadores exibidos no dashboard
+        self.assertIn('total_professores', response.context)
+        self.assertIn('total_classes', response.context)
+        self.assertIn('total_alunos', response.context)
+        self.assertIn('total_secretarios', response.context)
+        # Valores esperados conforme setUp (1 professor criado, 1 classe, 0 alunos por padrão, 1 secretario)
+        self.assertEqual(response.context['total_professores'], 1)
+        self.assertEqual(response.context['total_classes'], 1)
+        self.assertEqual(response.context['total_alunos'], 0)
+        self.assertEqual(response.context['total_secretarios'], 1)
     
     def test_dashboard_secretario(self):
         """Verifica se secretário vê o dashboard correto"""
@@ -62,6 +72,21 @@ class DashboardViewTestCase(BaseTestCase):
         self.assertTemplateUsed(response, 'tela_inicial/dashboard_secretario.html')
         self.assertIn('perfil', response.context)
         self.assertEqual(response.context['perfil'], 'Secretário')
+        # Verifica os contadores disponíveis no dashboard do secretário
+        self.assertIn('total_alunos', response.context)
+        self.assertIn('total_classes', response.context)
+        self.assertIn('total_aulas', response.context)
+        self.assertIn('total_matriculas', response.context)
+        self.assertEqual(response.context['total_alunos'], 0)
+        self.assertEqual(response.context['total_classes'], 1)
+        self.assertEqual(response.context['total_aulas'], 0)
+        self.assertEqual(response.context['total_matriculas'], 0)
+        # Verifica que os contadores são exibidos como links para as páginas correspondentes
+        self.assertContains(response, reverse('aluno_list'))
+        self.assertContains(response, reverse('classe_list'))
+        self.assertContains(response, reverse('aula_list'))
+        # 'total_matriculas' link aponta para a lista de alunos (atualmente sem rota única para matrículas)
+        self.assertContains(response, reverse('aluno_list'))
     
     def test_dashboard_professor(self):
         """Verifica se professor vê o dashboard correto"""
@@ -71,6 +96,19 @@ class DashboardViewTestCase(BaseTestCase):
         self.assertTemplateUsed(response, 'tela_inicial/dashboard_professor.html')
         self.assertIn('perfil', response.context)
         self.assertEqual(response.context['perfil'], 'Professor')
+        # Verifica os contadores específicos para professor (valores padrão conforme setUp)
+        self.assertIn('total_aulas', response.context)
+        self.assertIn('total_alunos', response.context)
+        self.assertIn('total_diarios', response.context)
+        self.assertIn('trimestre_ativo', response.context)
+        self.assertEqual(response.context['total_aulas'], 0)
+        self.assertEqual(response.context['total_alunos'], 0)
+        self.assertEqual(response.context['total_diarios'], 0)
+        self.assertIsNone(response.context['trimestre_ativo'])
+        # Verifica que os contadores aparecem como links para as páginas relevantes
+        self.assertContains(response, reverse('aula_list_professor'))
+        self.assertContains(response, reverse('aluno_list_professor'))
+        self.assertContains(response, reverse('periodo_list'))
 
 
 class ClasseViewTestCase(BaseTestCase):

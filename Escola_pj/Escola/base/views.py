@@ -17,24 +17,74 @@ def is_secretario_or_superintendente(user): return user.is_authenticated and use
 
 @login_required
 def dashboard(request):
-    ## if request.method == 'POST':
+
     if request.user.role == 'superintendente':
         classes = Classe.objects.all()
         usuarios_disponiveis = Usuario.objects.filter(role='professor', professor__isnull=True)
-        # return render(request, 'tela_inicial/layout_base.html', {'perfil': 'Superintendente', 'classes': classes, 'usuarios_disponiveis': usuarios_disponiveis})
-        return render(request, 'tela_inicial/dashboard_superintendente.html', {'perfil': 'Superintendente', 'classes': classes, 'usuarios_disponiveis': usuarios_disponiveis})
+       
+        # Contadores para exibição no dashboard (total de professores vinculados, classes, alunos e secretários)
+        total_professores = Professor.objects.count()
+        total_classes = classes.count()
+        total_alunos = Aluno.objects.count()
+        total_secretarios = Usuario.objects.filter(role='secretario').count()
+        total_trimestres = Trimestre.objects.count()
+        return render(request, 'tela_inicial/dashboard_superintendente.html', {
+            'perfil': 'Superintendente',
+            'classes': classes,
+            'usuarios_disponiveis': usuarios_disponiveis,
+            'total_professores': total_professores,
+            'total_classes': total_classes,
+            'total_alunos': total_alunos,
+            'total_secretarios': total_secretarios,
+            'total_trimestres': total_trimestres,
+        })
+        
     elif request.user.role == 'secretario':
-        return render(request, 'tela_inicial/dashboard_secretario.html', {'perfil': 'Secretário'})
+        total_alunos = Aluno.objects.count()
+        total_classes = Classe.objects.count()
+        total_aulas = Aula.objects.count()
+        total_matriculas = Matricula.objects.filter(ativa=True).count()
+        return render(request, 'tela_inicial/dashboard_secretario.html', {
+            'perfil': 'Secretário',
+            'total_alunos': total_alunos,
+            'total_classes': total_classes,
+            'total_aulas': total_aulas,
+            'total_matriculas': total_matriculas,
+        })
+
     elif request.user.role == 'professor':
-        return render(request, 'tela_inicial/dashboard_professor.html', {'perfil': 'Professor'})
+        # Indica se o professor está vinculado a uma classe (para exibir ações apropriadas)
+        vinculado = hasattr(request.user, 'professor')
+        # Valores padrão
+        total_aulas = 0
+        total_alunos = 0
+        total_diarios = 0
+        trimestre_ativo = Trimestre.objects.filter(ativo=True).first()
+        if vinculado:
+            professor_obj = request.user.professor
+            classe = professor_obj.classe
+            # Aulas do período ativo (se houver)
+            aulas_qs = Aula.objects.filter(classe=classe)
+            if trimestre_ativo:
+                aulas_qs = aulas_qs.filter(trimestre=trimestre_ativo)
+            total_aulas = aulas_qs.count()
+            # Alunos matriculados na classe no trimestre ativo
+            if trimestre_ativo:
+                total_alunos = Matricula.objects.filter(classe=classe, trimestre=trimestre_ativo, ativa=True).count()
+                total_diarios = Diario.objects.filter(aula__classe=classe, aula__trimestre=trimestre_ativo).count()
+            else:
+                total_alunos = Matricula.objects.filter(classe=classe, ativa=True).count()
+                total_diarios = Diario.objects.filter(aula__classe=classe).count()
+
+        return render(request, 'tela_inicial/dashboard_professor.html', {
+            'perfil': 'Professor',
+            'vinculado': vinculado,
+            'total_aulas': total_aulas,
+            'total_alunos': total_alunos,
+            'total_diarios': total_diarios,
+            'trimestre_ativo': trimestre_ativo,
+        })
     return redirect('login')
-
-# --- Superintendente ---
-@user_passes_test(is_superintendente)
-# def usuario_add(request):
-#     return render(request, 'usuario_form.html')
-
-
 
 @user_passes_test(is_superintendente)
 def cadastrar_professor(request):
@@ -96,7 +146,8 @@ def cadastrar_professor(request):
 
         return redirect('dashboard')
 
-    return render(request, 'tela_inicial/dashboard_superintendente.html', {'classes': classes, 'usuarios_disponiveis': usuarios_disponiveis})
+    # Em GET, renderizar o formulário dedicado de cadastro/associação de professor/secretário
+    return render(request, 'professor_form.html', {'classes': classes, 'usuarios_disponiveis': usuarios_disponiveis})
 
  
 @user_passes_test(is_superintendente)

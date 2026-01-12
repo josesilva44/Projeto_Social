@@ -3,10 +3,23 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import Usuario, Igreja, Classe, Professor, Aula, Trimestre
 
+
+class ProfessorInline(admin.StackedInline):
+    """Permite vincular o perfil de Professor a classe."""
+    model = Professor
+    fk_name = 'usuario'
+    can_delete = False
+    verbose_name = 'Perfil de Professor'
+    verbose_name_plural = 'Perfil de Professor'
+    extra = 1
+    max_num = 1
+
 class UsuarioAdmin(UserAdmin):
     model = Usuario
     list_display = ("username", "email", "role", "igreja", "is_staff", "is_active")
     list_filter = ("role", "is_staff", "is_active")
+
+    inlines = (ProfessorInline,)
 
     # Campos de edição
     fieldsets = (
