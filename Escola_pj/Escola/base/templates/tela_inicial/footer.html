@@ -1,89 +1,88 @@
-{% load static %}
-<footer id="footer" class="footer">
-  <div class="footer-top">
-    <div class="container">
-      <!-- Logo e Informações Centralizadas -->
-      <div class="row mb-5">
-        <div class="col-12 text-center">
-        
-          <p class="mb-3"><strong>Sistema de Gestão Escolar</strong><br>Gerenciamento completo de classes, alunos e períodos letivos.</p>
-          <div class="social-links d-flex justify-content-center">
-            <a href="#" class="twitter" title="Twitter" data-bs-toggle="tooltip"><i class="bi bi-twitter-x"></i></a>
-            <a href="#" class="facebook" title="Facebook" data-bs-toggle="tooltip"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="instagram" title="Instagram" data-bs-toggle="tooltip"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="linkedin" title="LinkedIn" data-bs-toggle="tooltip"><i class="bi bi-linkedin"></i></a>
+<footer id="footer" class="text-white pt-5 pb-4 mt-5" style="background-color: #012970; font-family: 'Poppins', sans-serif;">
+  <div class="container">
+    <div class="row gy-4 justify-content-between">
+      
+      <div class="col-lg-4 col-md-6 footer-info">
+        <a href="{% url 'home' %}" class="d-flex align-items-center text-white text-decoration-none mb-3">
+          <i class="bi bi-book-half fs-2 me-2"></i>
+          <span class="fs-3 fw-bold tracking-wide">ESCOLA EBD</span>
+        </a>
+        <p class="text-white-50" style="line-height: 1.6;">
+          Fortalecendo a fé através do ensino. Uma plataforma simples e eficiente para gestão da Escola Bíblica Dominical, conectando professores, alunos e a administração.
+        </p>
+        <div class="social-links d-flex mt-4 gap-3">
+          <a href="#" class="d-flex align-items-center justify-content-center rounded-circle border border-white-50 text-white text-decoration-none" style="width: 40px; height: 40px; transition: 0.3s;"><i class="bi bi-twitter"></i></a>
+          <a href="#" class="d-flex align-items-center justify-content-center rounded-circle border border-white-50 text-white text-decoration-none" style="width: 40px; height: 40px; transition: 0.3s;"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="d-flex align-items-center justify-content-center rounded-circle border border-white-50 text-white text-decoration-none" style="width: 40px; height: 40px; transition: 0.3s;"><i class="bi bi-instagram"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 footer-links">
+        <h4 class="text-white mb-4 fw-semibold position-relative d-inline-block">Acesso Rápido</h4>
+        <ul class="list-unstyled">
+          <li class="mb-3">
+            <a href="{% url 'home' %}" class="text-white-50 text-decoration-none d-flex align-items-center hover-white">
+              <i class="bi bi-chevron-right me-2 small"></i> Início / Dashboard
+            </a>
+          </li>
+          
+          {% if user.is_authenticated %}
+            <li class="mb-3">
+              <form method="post" action="{% url 'logout' %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link p-0 text-white-50 text-decoration-none d-flex align-items-center hover-white" style="border: none; background: none;">
+                  <i class="bi bi-chevron-right me-2 small"></i> Sair do Sistema
+                </button>
+              </form>
+            </li>
+          {% else %}
+            <li class="mb-3">
+              <a href="{% url 'login' %}" class="text-white-50 text-decoration-none d-flex align-items-center hover-white">
+                <i class="bi bi-chevron-right me-2 small"></i> Área do Professor
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <div class="col-lg-4 col-md-6 footer-contact">
+        <h4 class="text-white mb-4 fw-semibold">Fale Conosco</h4>
+        <div class="text-white-50 d-flex flex-column gap-3">
+          <div class="d-flex align-items-start">
+            <i class="bi bi-geo-alt fs-5 me-3 text-white"></i>
+            <span>Rua da Igreja, 123 - Centro<br>Sua Cidade - UF</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <i class="bi bi-telephone fs-5 me-3 text-white"></i>
+            <span>(00) 1234-5678</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <i class="bi bi-envelope fs-5 me-3 text-white"></i>
+            <span>email@ebd.com</span>
           </div>
         </div>
       </div>
 
-      <!-- Links Universais por Perfil -->
-      <div class="row gy-5 text-center">
-        <!-- Acesso -->
-        <div class="col-lg-4 col-md-6 footer-links">
-          <h4>Acesso</h4>
-          <ul class="justify-content-center">
-            <li>
-              <i class="bi bi-house-door"></i> 
-              <a href="{% url 'dashboard' %}" class="link-muted">Início</a>
-            </li>
-            {% if user.is_authenticated %}
-              <li>
-                <i class="bi bi-box-arrow-right"></i> 
-                <a href="{% url 'logout' %}" class="link-muted">Sair</a>
-              </li>
-            {% else %}
-              <li>
-                <i class="bi bi-box-arrow-in-right"></i> 
-                <a href="{% url 'login' %}" class="link-muted">Entrar</a>
-              </li>
-            {% endif %}
-          </ul>
-        </div>
+    </div>
+  </div>
 
-        <!-- Informações -->
-        <div class="col-lg-4 col-md-6 footer-links">
-          <h4>Informações</h4>
-          <ul class="justify-content-center">
-            <li>
-              <i class="bi bi-info-circle"></i> 
-              <span class="link-muted">Versão 1.0.0</span>
-            </li>
-            <li>
-              <i class="bi bi-book"></i> 
-              <span class="link-muted">Sistema web de gestão escolar</span>
-            </li>
-            <li>
-              <i class="bi bi-question-circle"></i> 
-              <span class="link-muted">© 2024 EBD Sistema</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Contato -->
-        <div class="col-lg-4 col-md-6 footer-links">
-          <h4>Contato</h4>
-          <ul class="justify-content-center">
-            <li>
-              <i class="bi bi-telephone"></i> 
-              <a href="tel:+551199999999" class="link-muted">+55 (11) 99999-9999</a>
-            </li>
-            <li>
-              <i class="bi bi-envelope"></i> 
-              <a href="mailto:contato@ebd-sistema.org" class="link-muted">contato@ebd-sistema.org</a>
-            </li>
-            <li>
-              <i class="bi bi-headset"></i> 
-              <span class="link-muted">Atendimento seg-sex 9h-17h</span>
-            </li>
-          </ul>
-        </div>
+  <div class="container mt-5 pt-4 border-top border-secondary">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center text-md-start text-white-50">
+        &copy; {% now "Y" %} <strong>Escola EBD</strong>. Todos os direitos reservados.
+      </div>
+      <div class="col-md-6 text-center text-md-end text-white-50 small mt-2 mt-md-0">
+        Gestão para igrejas
       </div>
     </div>
   </div>
-
-  <div class="container text-center py-4">
-    <div class="copyright">
-      &copy; {% now "Y" %} <strong>EBD Sistema</strong> — Todos os direitos reservados.
-    </div>
-  </div>
 </footer>
+
+<style>
+  /* Pequeno ajuste CSS inline para efeito de hover nos links */
+  .hover-white:hover {
+    color: #ffffff !important;
+    padding-left: 5px;
+    transition: all 0.3s ease;
+  }
+</style>

@@ -17,7 +17,7 @@
         {% if user.is_authenticated and user.role == 'secretario' %}
           <li><a class="nav-link scrollto" href="{% url 'aula_list' %}">Aulas</a></li>
           <li><a class="nav-link scrollto" href="{% url 'aluno_list' %}">Alunos</a></li>
-          <li><a class="nav-link scrollto" href="{% url 'periodo_list' %}">Períodos</a></li>
+          <!-- <li><a class="nav-link scrollto" href="{% url 'periodo_list' %}">Períodos</a></li> -->
         {% endif %}
 
         {% if user.is_authenticated and user.role == 'superintendente' %}
@@ -42,3 +42,5 @@
 
   </div>
 </header>
+<br>
+<br>

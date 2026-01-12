@@ -2,57 +2,87 @@
 
 {% block conteudo %}
 <div class="container py-4">
-  <h2>Relatório de Aulas</h2>
+  <h2>Lista de Alunos</h2>
 
+  <!-- FILTRO POR TRIMESTRE -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <form method="get" class="row g-2 align-items-center">
+        <div class="col-md-6">
+          <label for="trimestre_filter" class="form-label">Filtrar por Trimestre:</label>
+          <select name="trimestre" id="trimestre_filter" class="form-select">
+            <option value="">-- Trimestre Ativo --</option>
+            {% for t in todos_trimestres %}
+              <option value="{{ t.id }}" {% if trimestre_selecionado and trimestre_selecionado.id == t.id %}selected{% endif %}>
+                {{ t.trimestre }} / {{ t.ano }}
+                {% if t.ativo %}<span class="badge bg-success">Ativo</span>{% endif %}
+                {% if t.concluido %}<span class="badge bg-secondary">Concluído</span>{% endif %}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6 d-flex gap-2 align-items-end">
+          <button type="submit" class="btn btn-primary">Filtrar</button>
+          <a href="{% url 'aluno_list' %}" class="btn btn-secondary">Limpar</a>
+        </div>
+      </form>
+    </div>
+  </div>
 
-
-  {% if aulas %}
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th>Data Prevista</th>
-            <th>Título</th>
-            <th>Classe</th>
-            <th>Concluída?</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for aula in aulas %}
-          <tr>
-            <td>{{ aula.data_prevista|date:"d/m/Y" }}</td>
-            <td>{{ aula.titulo }}</td>
-            <td>{{ aula.classe.nome }} ({{ aula.classe.igreja.nome }})</td>
-            <td>
-              {% if aula.concluida %}
-                <span class="badge bg-success">Concluída</span>
-              {% else %}
-                <span class="badge bg-warning text-dark">Pendente</span>
-              {% endif %}
-            </td>
-            <td>
-              <a href="{% url 'relatorio_aula' aula.id %}" class="btn btn-primary btn-sm">
-                📊 Relatório
-              </a>
-              {% if not aula.concluida %}
-                <a href="{% url 'diario_registro' aula.id %}" class="btn btn-info btn-sm">
-                  📝 Diário
-                </a>
-              {% endif %}
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+  <!-- INFO TRIMESTRE -->
+  {% if trimestre_selecionado %}
+    <div class="alert alert-info" role="alert">
+      <strong>Trimestre selecionado:</strong> {{ trimestre_selecionado.trimestre }} / {{ trimestre_selecionado.ano }}
+      {% if trimestre_selecionado.ativo %}<span class="badge bg-success">Ativo</span>{% endif %}
+      {% if trimestre_selecionado.concluido %}<span class="badge bg-secondary">Concluído</span>{% endif %}
+      <br>
+      <strong>Total de alunos:</strong> {{ total_alunos }}
     </div>
   {% else %}
-    <div class="alert alert-info text-center">
-      Nenhuma aula registrada no sistema.
+    <div class="alert alert-warning" role="alert">
+      <strong>Nenhum trimestre ativo.</strong> Inicie um trimestre para visualizar alunos matriculados.
+    </div>
+  {% endif %}
+
+  <!-- LISTA DE ALUNOS AGRUPADOS POR CLASSE -->
+  {% if grupos %}
+    {% for grupo in grupos %}
+      <div class="card mt-4">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0"  style="color: #e6e6e6;">{{ grupo.classe.nome }} <small>({{ grupo.classe.igreja.nome }})</small></h5>
+        </div>
+        <table class="table table-striped mb-0">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Data Nascimento</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for aluno in grupo.alunos %}
+              <tr>
+                <td>{{ aluno.nome }}</td>
+                <td>{{ aluno.data_nascimento|date:"d/m/Y" }}</td>
+                <td>
+                  <a class="btn btn-sm btn-warning" href="{% url 'aluno_transferir' aluno.id %}{% if trimestre_selecionado %}?trimestre={{ trimestre_selecionado.id }}{% endif %}">Transferir</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="alert alert-info" role="alert">
+      {% if trimestre_selecionado %}
+        Nenhum aluno matriculado no trimestre selecionado.
+      {% else %}
+        Nenhum trimestre disponível.
+      {% endif %}
     </div>
   {% endif %}
 </div>
-
 
 {% block footer %}{% endblock %}
 {% endblock conteudo %}

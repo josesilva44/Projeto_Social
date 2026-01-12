@@ -55,6 +55,7 @@
         </a>
       </div>
 
+      {% if vinculado %}
       <div class="col-lg-3 col-md-6">
         <a href="{% url 'aluno_matricular' %}" class="card icon-card h-100 text-center" style="text-decoration: none; color: inherit;">
           <div class="card-body">
@@ -66,6 +67,19 @@
           </div>
         </a>
       </div>
+      {% else %}
+      <div class="col-lg-3 col-md-6">
+        <div class="card icon-card h-100 text-center text-muted" style="text-decoration: none; color: inherit; opacity: 0.8;">
+          <div class="card-body">
+            <div class="icon-box mb-3">
+              <i class="bi bi-person-x"></i>
+            </div>
+            <h4>Matricular Aluno</h4>
+            <p><small>Você não está vinculado a nenhuma classe. Peça ao Superintendente para associar sua conta.</small></p>
+          </div>
+        </div>
+      </div>
+      {% endif %}
 
     </div>
   </div>
@@ -75,40 +89,48 @@
   <div class="container">
     <div class="row gy-4">
       <div class="col-lg-3 col-md-6">
-        <div class="stats-item text-center w-100 h-100">
-          <div class="icon-circle mx-auto mb-3">
-            <i class="bi bi-calendar-event"></i>
+        <a href="{% url 'aula_list_professor' %}" class="text-decoration-none text-reset">
+          <div class="stats-item text-center w-100 h-100">
+            <div class="icon-circle mx-auto mb-3">
+              <i class="bi bi-person-video3"></i>
+            </div>
+            <span class="fs-2 fw-bold" style="color: #012970;">{{ total_aulas }}</span>
+            <p>Minhas aulas do período</p>
           </div>
-          <span class="fs-2 fw-bold text-primary">{{ total_aulas }}</span>
-          <p>Minhas aulas do período</p>
-        </div>
+        </a>
       </div>
       <div class="col-lg-3 col-md-6">
-        <div class="stats-item text-center w-100 h-100">
-          <div class="icon-circle mx-auto mb-3">
-            <i class="bi bi-people-fill"></i>
+        <a href="{% url 'aluno_list_professor' %}" class="text-decoration-none text-reset">
+          <div class="stats-item text-center w-100 h-100">
+            <div class="icon-circle mx-auto mb-3">
+              <i class="bi bi-building"></i>
+            </div>
+            <span class="fs-2 fw-bold" style="color: #012970;">{{ total_alunos }}</span>
+            <p>Alunos na minha classe</p>
           </div>
-          <span class="fs-2 fw-bold text-primary">{{ total_alunos }}</span>
-          <p>Na minha classe</p>
-        </div>
+        </a>
       </div>
       <div class="col-lg-3 col-md-6">
-        <div class="stats-item text-center w-100 h-100">
-          <div class="icon-circle mx-auto mb-3">
-            <i class="bi bi-journal-check"></i>
+        <a href="{% url 'aula_list_professor' %}" class="text-decoration-none text-reset">
+          <div class="stats-item text-center w-100 h-100">
+            <div class="icon-circle mx-auto mb-3">
+              <i class="bi bi-people-fill"></i>
+            </div>
+            <span class="fs-2 fw-bold" style="color: #012970;">{{ total_diarios }}</span>
+            <p>Diários preenchidos</p>
           </div>
-          <span class="fs-2 fw-bold text-primary">{{ total_diarios }}</span>
-          <p>Diários preenchidos</p>
-        </div>
+        </a>
       </div>
       <div class="col-lg-3 col-md-6">
-        <div class="stats-item text-center w-100 h-100">
-          <div class="icon-circle mx-auto mb-3">
-            <i class="bi bi-info-circle"></i>
+        <a href="{% url 'periodo_list' %}" class="text-decoration-none text-reset">
+          <div class="stats-item text-center w-100 h-100">
+            <div class="icon-circle mx-auto mb-3">
+              <i class="bi bi-journal-bookmark"></i>
+            </div>
+            <span class="fs-2 fw-bold" style="color: #012970;">{% if trimestre_ativo %}{{ trimestre_ativo.trimestre }} / {{ trimestre_ativo.ano }}{% else %}Nenhum{% endif %}</span>
+            <p>Período ativo</p>
           </div>
-          <span class="fs-4 fw-bold text-primary" style="word-break: break-word; line-height: 1.2;">{% if trimestre_ativo %}{{ trimestre_ativo.trimestre }}/{{ trimestre_ativo.ano }}{% else %}—{% endif %}</span>
-          <p>Período ativo</p>
-        </div>
+        </a>
       </div>
     </div>
   </div>
@@ -116,7 +138,7 @@
 
 <section id="about-app" class="about-app section-bg">
   <div class="container">
-    <header class="section-header text-center mb-5">
+    <header class="section-header text-center mb-5 mt-5">
       <h2>Como funciona o sistema?</h2>
       <p>Funcionalidades disponíveis para professores</p>
     </header>

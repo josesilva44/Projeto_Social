@@ -43,14 +43,15 @@
         </a>
       </div>
 
+
       <div class="col-lg-3 col-md-6">
-        <a href="{% url 'professor_list' %}" class="card icon-card h-100 text-center" style="text-decoration: none; color: inherit;">
+        <a href="{% url 'cadastrar_professor' %}" class="card icon-card h-100 text-center" style="text-decoration: none; color: inherit;">
           <div class="card-body">
             <div class="icon-box mb-3">
-              <i class="bi bi-person-badge"></i>
+              <i class="bi bi-person-plus"></i>
             </div>
-            <h4>Gerenciar Professores</h4>
-            <p>{{ total_professores }} professores cadastrados.</p>
+            <h4>Cadastrar/Associar Usuário</h4>
+            <p>Associe usuários como Professores ou Secretários.</p>
           </div>
         </a>
       </div>
@@ -75,40 +76,48 @@
   <div class="container">
     <div class="row gy-4">
       <div class="col-lg-3 col-md-6">
-        <div class="stats-item text-center w-100 h-100">
-          <div class="icon-circle mx-auto mb-3">
-            <i class="bi bi-person-video3"></i>
+        <a href="{% url 'professor_list' %}" class="text-decoration-none text-reset">
+          <div class="stats-item text-center w-100 h-100">
+            <div class="icon-circle mx-auto mb-3">
+              <i class="bi bi-person-video3"></i>
+            </div>
+            <span class="fs-2 fw-bold" style="color: #012970;">{{ total_professores }}</span>
+            <p>Professores</p>
           </div>
-          <span class="fs-2 fw-bold text-primary">{{ total_professores }}</span>
-          <p>Professores</p>
-        </div>
+        </a>
       </div>
       <div class="col-lg-3 col-md-6">
-        <div class="stats-item text-center w-100 h-100">
-          <div class="icon-circle mx-auto mb-3">
-            <i class="bi bi-building"></i>
+        <a href="{% url 'classe_list' %}" class="text-decoration-none text-reset">
+          <div class="stats-item text-center w-100 h-100">
+            <div class="icon-circle mx-auto mb-3">
+              <i class="bi bi-building"></i>
+            </div>
+            <span class="fs-2 fw-bold" style="color: #012970;">{{ total_classes }}</span>
+            <p>Classes</p>
           </div>
-          <span class="fs-2 fw-bold text-primary">{{ total_classes }}</span>
-          <p>Classes</p>
-        </div>
+        </a>
       </div>
       <div class="col-lg-3 col-md-6">
-        <div class="stats-item text-center w-100 h-100">
-          <div class="icon-circle mx-auto mb-3">
-            <i class="bi bi-people-fill"></i>
+        <a href="{% url 'aluno_list' %}" class="text-decoration-none text-reset">
+          <div class="stats-item text-center w-100 h-100">
+            <div class="icon-circle mx-auto mb-3">
+              <i class="bi bi-people-fill"></i>
+            </div>
+            <span class="fs-2 fw-bold" style="color: #012970;">{{ total_alunos }}</span>
+            <p>Alunos</p>
           </div>
-          <span class="fs-2 fw-bold text-primary">{{ total_alunos }}</span>
-          <p>Alunos</p>
-        </div>
+        </a>
       </div>
       <div class="col-lg-3 col-md-6">
-        <div class="stats-item text-center w-100 h-100">
-          <div class="icon-circle mx-auto mb-3">
-            <i class="bi bi-journal-bookmark"></i>
+        <a href="{% url 'periodo_list' %}" class="text-decoration-none text-reset">
+          <div class="stats-item text-center w-100 h-100">
+            <div class="icon-circle mx-auto mb-3">
+              <i class="bi bi-calendar3"></i>
+            </div>
+            <span class="fs-2 fw-bold" style="color: #012970;">{{ total_trimestres }}</span>
+            <p>Trimestres</p>
           </div>
-          <span class="fs-2 fw-bold text-primary">{{ total_secretarios }}</span>
-          <p>Secretários</p>
-        </div>
+        </a>
       </div>
     </div>
   </div>
@@ -116,7 +125,7 @@
 
 <section id="about-app" class="about-app section-bg">
   <div class="container">
-    <header class="section-header text-center mb-5">
+    <header class="section-header text-center mb-5 mt-5">
       <h2>Como funciona o sistema?</h2>
       <p>Conheça os recursos disponíveis para sua gestão da Escola Bíblica Dominical</p>
     </header>
