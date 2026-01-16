@@ -40,16 +40,35 @@ def dashboard(request):
         })
         
     elif request.user.role == 'secretario':
-        total_alunos = Aluno.objects.count()
+        # Buscar trimestre ativo
+        trimestre_ativo = Trimestre.objects.filter(ativo=True).first()
+        
+        if trimestre_ativo:
+            # Filtrar dados pelo trimestre ativo
+            total_alunos = Matricula.objects.filter(
+                trimestre=trimestre_ativo, 
+                ativa=True
+            ).values('aluno').distinct().count()
+            total_aulas = Aula.objects.filter(trimestre=trimestre_ativo).count()
+            total_matriculas = Matricula.objects.filter(
+                trimestre=trimestre_ativo, 
+                ativa=True
+            ).count()
+        else:
+            # Se não há trimestre ativo, mostrar 0
+            total_alunos = 0
+            total_aulas = 0
+            total_matriculas = 0
+        
         total_classes = Classe.objects.count()
-        total_aulas = Aula.objects.count()
-        total_matriculas = Matricula.objects.filter(ativa=True).count()
+        
         return render(request, 'tela_inicial/dashboard_secretario.html', {
             'perfil': 'Secretário',
             'total_alunos': total_alunos,
             'total_classes': total_classes,
             'total_aulas': total_aulas,
             'total_matriculas': total_matriculas,
+            'trimestre_ativo': trimestre_ativo,
         })
 
     elif request.user.role == 'professor':
@@ -150,6 +169,7 @@ def cadastrar_professor(request):
     return render(request, 'professor_form.html', {'classes': classes, 'usuarios_disponiveis': usuarios_disponiveis})
 
  
+@user_passes_test(is_superintendente)
 @user_passes_test(is_superintendente)
 def classe_list(request):
     classes = Classe.objects.all()

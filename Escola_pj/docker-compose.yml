@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    image: deps-django
+    # Entrypoint cuidará de rodar migrações e collectstatic (se habilitado)
+    command: gunicorn Escola.Escola.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    restart: unless-stopped
