@@ -18,14 +18,11 @@ COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # copy project
-COPY . /app
+COPY . .
+
+RUN python Escola/manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-# copy and set entrypoint
-RUN chmod +x /app/entrypoint.sh
-
-
-# default command: run with gunicorn (production) or change to runserver for development
-ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["gunicorn", "Escola.wsgi:application", "--bind", "0.0.0.0:8000"]
+ENTRYPOINT ["/app/entrypoint.sh"]
